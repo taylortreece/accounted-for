@@ -48,11 +48,22 @@ class ApplicationController < Sinatra::Base
     end
 
     post '/signup/user_company/:id' do
+      counter=0
       params[:user_companies].each do |company|
-        user_company=UserCompany.new(company)
-        user_company.user=current_user
-        if !user_company.save 
+        user_company = UserCompany.new(company)
+        user_company.user = current_user
+        user_company.save
+        
+        title=UserJobTitle.new(name: params[:user]["#{counter}".to_i][:user_job_title])
+        title.user_company_id = user_company.id
+        title.user_id = current_user.id
+        title.save
+        counter+=1
+
+        if !user_company.save  || !current_user.save
           redirect "/signup/#{current_user.slugged_username}/user_company/#{params[:user_companies].length}"
+        else
+          user_company.save && current_user.save
         end
       end
       
@@ -68,5 +79,20 @@ class ApplicationController < Sinatra::Base
         User.find(session[:user_id])
       end
     end
+
+    # DELETE METHODS BELOW AFTER TESTING #
+
+    get '/information/delete' do
+      User.all.each do |t|
+          t.destroy
+      end
+      UserCompany.all.each do |t|
+          t.destroy
+      end
+      UserJobTitle.all.each do |t|
+        t.destroy
+    end
+      "data cleared"
+  end
 
   end
