@@ -1,9 +1,13 @@
 class UserController < ApplicationController
     layout "main"
     
-    get '/user/all' do
-        @user=current_user
-        erb :'/user/index'
+    get '/users/:slug/all' do
+        if logged_in?
+            @user=current_user
+            erb :'/user/index'
+        else
+            redirect '/'
+        end
     end
 
 end

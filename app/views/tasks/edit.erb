@@ -1,0 +1,26 @@
+<h1>Edit Task</h1>
+
+<p><%=@task.user_company.name%></p>
+<p><%=@task.description%></p>
+<p><%=@task.deadline%></p><br>
+
+<form action='/tasks/<%=@task.title%>/edit' method='post'>
+<input type='hidden' name='_method' value='patch'>
+
+<%@user.user_companies.each do |c|%>
+<label for='user_company'><%=c.name%></label>
+<input type='radio' name='user_company' id='user_company' value='<%=c.name%>' placeholder='enter associated company of this task'><br>
+<%end%><br><br>
+
+<label for='title'>Name of Task: </label>
+<input type='text' name='task[title]' id='title' placeholder='enter title of task'><br><br>
+
+<label for='content'>Content of task: </label>
+<input type='textbox' name='task[description]' id='content' placeholder='enter content of task'><br><br>
+
+<label for='deadline'>Dealine of task: </label>
+<input type='datetime-local' name='task[deadline]' id='content' placeholder='enter deadline of task'><br><br>
+
+<input type='submit' id='submit' value='Change task'>
+
+</form>

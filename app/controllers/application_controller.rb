@@ -16,8 +16,8 @@ class ApplicationController < Sinatra::Base
       user=User.find_by(email: params[:email])
 
       if user && user.authenticate(params[:password])
-        session[user_id]=user.id
-        redirect '/user'
+        session[:user_id]=user.id
+        redirect "/users/#{current_user.slugged_username}/all"
       else
         redirect '/'
       end
@@ -67,7 +67,12 @@ class ApplicationController < Sinatra::Base
         end
       end
       
-      redirect '/user/all'
+      redirect "/users/#{current_user.slugged_username}/all"
+    end
+
+    get '/logout' do
+      log_out
+      redirect '/'
     end
 
     helpers do 
@@ -78,21 +83,48 @@ class ApplicationController < Sinatra::Base
       def current_user
         User.find(session[:user_id])
       end
+
+      def log_out
+        session.clear
+      end
     end
 
     # DELETE METHODS BELOW AFTER TESTING #
 
-    get '/information/delete' do
-      User.all.each do |t|
+    get '/delete/:section' do
+
+      case params[:section]
+      when 'users'
+        User.all.each do |t|
+            t.destroy
+        end
+      when 'user_companies'
+        UserCompany.all.each do |t|
+            t.destroy
+        end
+      when 'notes'
+        Note.all.each do |t|
           t.destroy
-      end
-      UserCompany.all.each do |t|
+        end
+      when 'tasks'
+        Task.all.each do |t|
           t.destroy
+        end
+      when 'all'
+        User.all.each do |t|
+          t.destroy
+        end
+        UserCompany.all.each do |t|
+          t.destroy
+        end
+        Note.all.each do |t|
+          t.destroy
+        end
+        Task.all.each do |t|
+          t.destroy
+        end
       end
-      UserJobTitle.all.each do |t|
-        t.destroy
-    end
-      "data cleared"
+      "#{params[:section]} cleared"
   end
 
   end

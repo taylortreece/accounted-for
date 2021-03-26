@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_26_172021) do
+ActiveRecord::Schema.define(version: 2021_03_26_193339) do
 
   create_table "client_companies", force: :cascade do |t|
     t.string "name"
@@ -47,7 +47,8 @@ ActiveRecord::Schema.define(version: 2021_03_26_172021) do
   create_table "notes", force: :cascade do |t|
     t.string "title"
     t.string "description"
-    t.integer "user_company"
+    t.integer "user_company_id"
+    t.integer "user_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -63,7 +64,8 @@ ActiveRecord::Schema.define(version: 2021_03_26_172021) do
     t.string "description"
     t.datetime "deadline"
     t.boolean "complete"
-    t.integer "user_company"
+    t.integer "user_company_id"
+    t.integer "user_id"
   end
 
   create_table "user_companies", force: :cascade do |t|

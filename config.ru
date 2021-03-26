@@ -5,4 +5,6 @@ end
 
 use Rack::MethodOverride
 use UserController
+use NoteController
+use TaskController
 run ApplicationController
