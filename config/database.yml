@@ -1,0 +1,19 @@
+default: &default
+  adapter: sqlite3
+  encoding: unicode
+  username: username
+  password: password
+  host: localhost
+  port: 5432
+
+development:
+  <<: *default
+  database: story_dev
+
+test:
+  <<: *default
+  database: story_test
+
+production:
+  <<: *default
+  database: story
