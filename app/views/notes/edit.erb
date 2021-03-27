@@ -1,0 +1,46 @@
+<h3 class='logo'><a href='/users/<%=@user.slugged_username%>/all'>Home</a></h3>
+
+<div class='navbar'>
+  <a href="/notes/all">Notes</a>
+  <a href="/tasks/all">Tasks</a>
+  <a href="/users/<%=@user.slugged_username%>/all">Notifications</a>
+
+  <a href="/clients/all">Clients</a>
+  <a href="/client-companies/all">Client Companies</a>
+  <a href="/my-companies/all">My Businessees</a>
+
+  <a href="/profiles/<%=@user.slugged_username%>">Profile</a>
+  <a href="/settings/all">Settings</a>
+  <a href="/logout">Logout</a>
+</div>
+
+<h2>Edit Note: </h2>
+<p><%=@note.title%></p>
+<p><%=@note.user_company.name%></p>
+<p><%=@note.description%></p><br>
+
+<form action='/notes/<%=@note.title%>/edit' method='post'>
+<input type='hidden' name='_method' value='patch'>
+
+<p>Choose associated company of this note:</p>
+<%@user.user_companies.each do |c|%>
+<label for='user_company'><%=c.name%></label>
+<input type='radio' name='user_company' id='user_company' value='<%=c.name%>' placeholder='choose associated company of this note'><br>
+<%end%><br><br>
+
+<label for='title'>Title of note: </label>
+<input type='text' name='note[title]' id='title' placeholder='enter title of note'><br><br>
+
+<label for='content'>Content of note: </label>
+<input type='textbox' name='note[description]' id='content' placeholder='enter content of note'><br><br>
+
+<input type='submit' id='submit' value='Create Note'>
+
+</form>
+
+<h1>Delete note?</h1>
+
+<form action='/notes/<%=@note.title%>/delete' method='post'>
+<input type='hidden' name='_method' value='delete'>
+<input type='submit' id='submit' value='Delete note'>
+</form>

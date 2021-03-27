@@ -1,8 +1,34 @@
-<h1>Edit Task</h1>
+<h3 class='logo'><a href='/users/<%=@user.slugged_username%>/all'>Home</a></h3>
+
+<div class='navbar'>
+  <a href="/notes/all">Notes</a>
+  <a href="/tasks/all">Tasks</a>
+  <a href="/users/<%=@user.slugged_username%>/all">Notifications</a>
+
+  <a href="/clients/all">Clients</a>
+  <a href="/client-companies/all">Client Companies</a>
+  <a href="/my-companies/all">My Businessees</a>
+
+  <a href="/profiles/<%=@user.slugged_username%>">Profile</a>
+  <a href="/settings/all">Settings</a>
+  <a href="/logout">Logout</a>
+</div>
+
+<h1><%=@task.title%></h1>
 
 <p><%=@task.user_company.name%></p>
 <p><%=@task.description%></p>
 <p><%=@task.deadline%></p><br>
+
+<h1>Mark task as completed:</h1>
+
+<label for='completed?'>Complete</label>
+<input type='radio' name='completed?' id='completed?' value='true'><br><br>
+
+<h2>Edit Task:</h2>
+
+<p>Choose associated company of this task:</p>
+
 
 <form action='/tasks/<%=@task.title%>/edit' method='post'>
 <input type='hidden' name='_method' value='patch'>
@@ -12,15 +38,22 @@
 <input type='radio' name='user_company' id='user_company' value='<%=c.name%>' placeholder='enter associated company of this task'><br>
 <%end%><br><br>
 
-<label for='title'>Name of Task: </label>
-<input type='text' name='task[title]' id='title' placeholder='enter title of task'><br><br>
+<label for='title'>*Name of Task: </label>
+<input type='text' name='task[title]' id='title' placeholder='enter new title of task' required><br><br>
 
-<label for='content'>Content of task: </label>
-<input type='textbox' name='task[description]' id='content' placeholder='enter content of task'><br><br>
+<label for='content'>*Content of task: </label>
+<input type='textbox' name='task[description]' id='content' placeholder='enter new content of task' required><br><br>
 
-<label for='deadline'>Dealine of task: </label>
-<input type='datetime-local' name='task[deadline]' id='content' placeholder='enter deadline of task'><br><br>
+<label for='deadline'>*Dealine of task: </label>
+<input type='datetime-local' name='task[deadline]' id='content' required><br><br>
 
-<input type='submit' id='submit' value='Change task'>
-
+<input type='submit' id='submit' value='Edit task'>
 </form>
+
+<h1>Delete task entirely?</h1>
+
+<form action='/tasks/<%=@task.title%>/delete' method='post'>
+<input type='hidden' name='_method' value='delete'>
+<input type='submit' id='submit' value='Delete task'>
+</form>
+

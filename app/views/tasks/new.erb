@@ -1,20 +1,36 @@
+<h3 class='logo'><a href='/users/<%=@user.slugged_username%>/all'>Home</a></h3>
+
+<div class='navbar'>
+  <a href="/notes/all">Notes</a>
+  <a href="/tasks/all">Tasks</a>
+  <a href="/users/<%=@user.slugged_username%>/all">Notifications</a>
+
+  <a href="/clients/all">Clients</a>
+  <a href="/client-companies/all">Client Companies</a>
+  <a href="/my-companies/all">My Businessees</a>
+
+  <a href="/profiles/<%=@user.slugged_username%>">Profile</a>
+  <a href="/settings/all">Settings</a>
+  <a href="/logout">Logout</a>
+</div>
+
 <h1>Create New Task</h1>
 
 <form action='/tasks/new' method='post'>
 
 <%@user.user_companies.each do |c|%>
 <label for='user_company'><%=c.name%></label>
-<input type='radio' name='user_company' id='user_company' value='<%=c.name%>' placeholder='enter associated company of this task'><br>
+<input type='radio' name='user_company' id='user_company' value='<%=c.name%>' required><br>
 <%end%><br><br>
 
 <label for='title'>Name of Task: </label>
-<input type='text' name='task[title]' id='title' placeholder='enter title of task'><br><br>
+<input type='text' name='task[title]' id='title' placeholder='enter title of task' required><br><br>
 
 <label for='content'>Content of task: </label>
-<input type='textbox' name='task[description]' id='content' placeholder='enter content of task'><br><br>
+<input type='textbox' name='task[description]' id='content' placeholder='enter content of task' required><br><br>
 
 <label for='deadline'>Dealine of task: </label>
-<input type='datetime-local' name='task[deadline]' id='content' placeholder='enter deadline of task'><br><br>
+<input type='datetime-local' name='task[deadline]' id='content' placeholder='enter deadline of task' required><br><br>
 
 <input type='submit' id='submit' value='Create task'>
 

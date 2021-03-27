@@ -14,39 +14,15 @@
   <a href="/logout">Logout</a>
 </div>
 
-<div style=
-"height:500px;
-margin: auto;
-width:400px;
-border:4px solid #ccc;
-overflow:auto;">
-<a href='/tasks/new'>Create New Task</a>
-<a href='/notes/new'>Create New Note</a>
-<a href='/notifications/new'>Create New Notification</a>
-
-<h2>Notes</h2>
-<%if @user.notes.empty?%>
-<p>You do not have notes. <a href='/notes/new'>Create some?</a>
-<%else%>
-<%@user.notes.each do |note|%>
-<h3><a href='/notes/<%=note.title%>'><%=note.title%></a></h3>
-<p><%=note.user_company.name%></p>
-<p><%=note.description%></p><br>
-<%end%>
-<%end%>
-
-<h2>Tasks</h2>
+<h1>Tasks:</h1>
 <%if @user.tasks.empty?%>
 <p>You do not have tasks. <a href='/tasks/new'>Create some?</a>
 <%else%>
 <%@user.tasks.each do |task|%>
 <h3><a href='/tasks/<%=task.title%>'><%=task.title%></a></h3>
+<%=binding.pry%>
 <p><%=task.user_company.name%></p>
 <p><%=task.description%></p>
 <p><%=task.deadline%></p><br>
 <%end%>
 <%end%>
-</div>
-
-
-  

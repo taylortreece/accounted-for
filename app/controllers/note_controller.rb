@@ -1,4 +1,10 @@
 class NoteController < ApplicationController
+    layout :"/app/views/layouts/main.html.erb"
+
+    get '/notes/all' do
+        @user=current_user
+        erb :'/notes/index'
+    end
 
     get '/notes/new' do 
         if logged_in?
@@ -21,11 +27,26 @@ class NoteController < ApplicationController
         end
     end
 
-    get 'notes/:title' do
+    get '/notes/:title' do
         @user=current_user
         @note=Note.find_by(title: params[:title])
         
-        erb :'/note/edit'
+        erb :'/notes/edit'
+    end
+
+    patch '/notes/:title/edit' do
+        note=Note.find_by(title: params[:title])
+        note.update(params[:note])
+        note.user_company=UserCompany.find_by(name: params[:user_company]) unless params[:user_company]==nil
+        note.save
+
+        redirect "/users/#{current_user.slugged_username}/all"
+    end
+
+    delete '/notes/:title/delete' do
+        Note.find_by(title: params[:title]).destroy
+
+        redirect "/users/#{current_user.slugged_username}/all"
     end
 
 end

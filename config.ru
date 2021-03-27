@@ -7,4 +7,6 @@ use Rack::MethodOverride
 use UserController
 use NoteController
 use TaskController
+use ClientController
+use ClientCompanyController
 run ApplicationController
