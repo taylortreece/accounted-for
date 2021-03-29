@@ -7,5 +7,5 @@ class UserCompany < ActiveRecord::Base
     has_many :client_companies
     has_many :clients, through: :client_companies
     has_many :jobs, through: :client_companies
-    has_many :job_titles, through: :user
+    has_many :users, through: :user_job_titles
 end

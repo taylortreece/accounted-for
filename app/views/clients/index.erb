@@ -16,11 +16,16 @@
 
 <h1>Clients:</h1>
 
-<%if @user.client_companies.empty?%>
+<%if @user_clients.empty?%>
 <p>You do not have clients. <a href='/clients/new'>Add some?</a></p>
 <%else%>
-<p><a href='/clients/new'>Add more clients?</a></p>
-<%@user.client_companies.each do |c|%>
-<%=c.name%>
+<a href='/clients/new'>Add clients.</a>
+<%@user_clients.each do |c|%>
+<p>Name: <a href='/clients/<%=c.slugged_name%>/edit'><%=c.first_name + " " + c.last_name%></a></p>
+<p>Job Title: <%=c.client_job_titles.first.name%></p>
+<p>Email: <%=c.email%></p>
+<p>Companies: <%c.client_companies.each do |c|%>
+<%=c.name%><br>
+<%end%>
 <%end%>
 <%end%>

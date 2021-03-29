@@ -14,9 +14,17 @@
   <a href="/logout">Logout</a>
 </div>
 
-<h1>Create New Clients:</h1>
+<h1><%=@client.first_name + " " + @client.last_name%></h1>
+<p>Job Title: <%=@client.client_job_titles.first.name%></p>
+<p>Email: <%=@client.email%></p>
+<p>Companies: <%@client.client_companies.each do |c|%>
+<%=c.name%>
+<%end%>
 
-<form action='/clients/new' method='post'>
+<h2>Edit:</h2>
+
+<form action='/clients/<%=@client.slugged_name%>/edit' method='post'>
+<input type='hidden' name='_method' value='patch'>
 
 <label for='first_name'>First Name: </label>
 <input type='text' name='client[first_name]' id='first_name' placeholder='Enter client first name' required><br><br>
@@ -29,17 +37,7 @@
 
 <p>If your client's company, or companies, have not been previously registered, enter the number of companies you need to create and associate with them: </p>
 <input type='number' name='number_of_new_client_companies' placeholder='please enter a number'><br><br>
-<p>If there are no new businesses to register, click 'Next'.</p>
+<p>If there are no new businesses to register, click 'Next' to select the businesses you would like to associate with this client.</p>
 <input type='submit' id='submit' value='Next'>
 
 </form>
-
-
-
-
-<!--t.string "first_name"
-    t.string "last_name"
-    t.string "slugged_name"
-    t.string "email"
-    t.string "details"
-    t.string "job_title"-->

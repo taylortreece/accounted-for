@@ -87,6 +87,25 @@ class ApplicationController < Sinatra::Base
       def log_out
         session.clear
       end
+
+      def user_clients
+        clients=[]
+        current_user.user_companies.each do |c|
+          c.client_companies.each do |c|
+            c.clients.each {|c| clients << c unless clients.include?(c)}
+          end
+        end
+        clients
+      end
+
+      def user_client_companies
+        client_companies=[]
+        current_user.user_companies.each do |c|
+          c.client_companies.each {|c| client_companies << c unless client_companies.include?(c)}
+          end
+        client_companies
+      end
+
     end
 
     # DELETE METHODS BELOW AFTER TESTING #
@@ -108,6 +127,14 @@ class ApplicationController < Sinatra::Base
         end
       when 'tasks'
         Task.all.each do |t|
+          t.destroy
+        end
+      when 'clients'
+        Client.all.each do |t|
+          t.destroy
+        end
+      when 'client_companies'
+        ClientCompany.all.each do |t|
           t.destroy
         end
       when 'all'

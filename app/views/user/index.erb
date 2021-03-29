@@ -28,6 +28,7 @@ overflow:auto;">
 <%if @user.notes.empty?%>
 <p>You do not have notes. <a href='/notes/new'>Create some?</a>
 <%else%>
+<a href='/notes/new'>Add notes</a>
 <%@user.notes.each do |note|%>
 <h3><a href='/notes/<%=note.title%>'><%=note.title%></a></h3>
 <p><%=note.user_company.name%></p>
@@ -39,6 +40,7 @@ overflow:auto;">
 <%if @user.tasks.empty?%>
 <p>You do not have tasks. <a href='/tasks/new'>Create some?</a>
 <%else%>
+<a href='/tasks/new'>Add tasks</a>
 <%@user.tasks.each do |task|%>
 <h3><a href='/tasks/<%=task.title%>'><%=task.title%></a></h3>
 <p><%=task.user_company.name%></p>

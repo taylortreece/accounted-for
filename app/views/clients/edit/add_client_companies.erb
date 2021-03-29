@@ -2,13 +2,12 @@
 
 <h2>Forms with "*" are required</h2><br>
 
-<h2>Also, more companies can be added later</h2><br>
-
-<form action='/client/company/<%=@client.slugged_name%>' method='post'>
+<form action='/client/<%=@client.slugged_name%>/edit/company' method='post'>
+<input type='hidden' name='_method' value='patch'>
 
 <%i=0%>
 
-<% @num.to_i.times do %>
+<% @num.to_i.times do unless @num==nil || @num==0%>
 
 <%i+=1%>
 
@@ -23,7 +22,7 @@
 <label for='name'>*Company Name: </label>
 <input type='text' name='client_companies[][name]' id='name' placeholder='enter the company name' required><br><br>
 
-<label for='job_title'>*Their Company Job Title: </label>
+<label for='job_title'>*<%=@client.first_name + " " + @client.last_name%> Company Job Title: </label>
 <input type='text' name='client[][client_job_title]' id='job_title' placeholder='enter the company job title' required><br><br>
 
 <label for='name'>Company Discount: %</label>
@@ -48,8 +47,28 @@
 <input type='checkbox' name='client_companies[][industry]' id='industry_list' value='<%=industry%>'><br><br>
 
 <%end%>
+<%end%>
 <%end%><br>
 
-<input type='submit' value='Next'><br><br>
+<h3>Select existing companies for association if applicable:</h3>
+
+<% @user.client_companies.each do |company| %>
+
+<% if @client.client_companies.include?(company)%>
+<h3>Current Companies: </h3>
+<%=company.name%>
+<%else%>
+
+<h2>Add Company:</h2>
+<label for='current_companies'><%=company.name%></label>
+<input type='checkbox' name='current_companies[company_name]' id='current_companies' value='<%=company.name%>'><br>
+
+<label for='current_company_title'>Title: </label>
+<input type='text' name='current_companies[titles]' id=current_company_title placeholder='Enter <%=@client.first_name + " " + @client.last_name%> title'><br><br>
+
+<%end%>
+<%end%><br><br>
+
+<input type='submit' value='Change Client'><br><br>
 
 </form>

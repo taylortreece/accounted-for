@@ -17,13 +17,13 @@
 <h1>Create New Note</h1>
 
 <form action='/notes/new' method='post'>
-
+<p>Choose associated company:</p>
 <%@user.user_companies.each do |c|%>
 <label for='user_company'><%=c.name%></label>
 <input type='radio' name='user_company' id='user_company' value='<%=c.name%>' placeholder='enter associated company of this note'><br>
 <%end%><br><br>
 
-<label for='title'>Name of note: </label>
+<label for='title'>Title of note: </label>
 <input type='text' name='note[title]' id='title' placeholder='enter title of note'><br><br>
 
 <label for='content'>Content of note: </label>
