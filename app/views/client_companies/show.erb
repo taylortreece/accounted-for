@@ -1,0 +1,31 @@
+<h3 class='logo'><a href='/users/<%=@user.slugged_username%>/all'>Home</a></h3>
+
+<div class='navbar'>
+  <a href="/notes/all">Notes</a>
+  <a href="/tasks/all">Tasks</a>
+  <a href="/users/<%=@user.slugged_username%>/all">Notifications</a>
+
+  <a href="/clients/all">Clients</a>
+  <a href="/client-companies/all">Client Companies</a>
+  <a href="/my-companies/all">My Businessees</a>
+
+  <a href="/profiles/<%=@user.slugged_username%>">Profile</a>
+  <a href="/settings/all">Settings</a>
+  <a href="/logout">Logout</a>
+</div>
+
+<h1><%=@client_company.name%></h1>
+<p>Address: <%=@client_company.city + ", " + @client_company.state + ". " + @client_company.address + " " + @client_company.zip_code.to_s%></p>
+<p>Industry: <%=@client_company.industry%></p>
+<p>User Company Association: <%=@client_company.user_company.name%></p>
+<p>Discount: <%=@client_company.discount.to_s + '%'%><br><br>
+
+<%if !@client_company.clients.empty?%>
+<h3>Clients: </h3>
+<%@client_company.clients.each do |c|%>
+<p>Client: <a href='/clients/<%=c.slugged_name%>/edit'><%=c.first_name + " " + c.last_name%></a></p>
+<p>Email: <%=c.email%></p><br>
+<%end%>
+<%else%>
+<p><a href='/clients/new'>You need clients!</a></p>
+<%end%>

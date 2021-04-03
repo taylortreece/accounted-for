@@ -137,11 +137,18 @@ class ApplicationController < Sinatra::Base
         ClientCompany.all.each do |t|
           t.destroy
         end
+      when 'titles'
+        ClientJobTitle.all.each do |t|
+          t.destroy
+        end
       when 'all'
         User.all.each do |t|
           t.destroy
         end
         UserCompany.all.each do |t|
+          t.destroy
+        end
+        ClientCompany.all.each do |t|
           t.destroy
         end
         Note.all.each do |t|
@@ -150,8 +157,23 @@ class ApplicationController < Sinatra::Base
         Task.all.each do |t|
           t.destroy
         end
+        ClientJobTitle.all.each do |t|
+          t.destroy
+        end
+        UserJobTitle.all.each do |t|
+          t.destroy
+        end
+        redirect '/'
       end
-      "#{params[:section]} cleared"
+      redirect "/users/#{current_user.slugged_username}/all"
+  end
+
+  get "/clients/companies/:slug/:num" do
+    @user=current_user
+    @client=Client.find_by(slugged_name: params[:slug])
+    @num=params[:num]
+
+    erb :'/clients/new/add_companies'
   end
 
   end

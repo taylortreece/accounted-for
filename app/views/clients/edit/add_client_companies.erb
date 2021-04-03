@@ -56,19 +56,16 @@
 
 <% if @client.client_companies.include?(company)%>
 <h3>Current Companies: </h3>
-<%=company.name%>
+<%=company.name%><br><br>
 <%else%>
 
-<h2>Add Company:</h2>
-<label for='current_companies'><%=company.name%></label>
-<input type='checkbox' name='current_companies[company_name]' id='current_companies' value='<%=company.name%>'><br>
+<label for='<%=company.name%>'><%=company.name%></label>
+<input type='checkbox' name='current_companies[][company_name]' id='<%=company.name%>' value='<%=company.name%>'><br>
 
-<label for='current_company_title'>Title: </label>
-<input type='text' name='current_companies[titles]' id=current_company_title placeholder='Enter <%=@client.first_name + " " + @client.last_name%> title'><br><br>
+<label for='<%=company%>'>Title: </label>
+<input type='text' name='current_companies[][titles]' id='<%=company%>' placeholder='Enter <%=@client.first_name + " " + @client.last_name%> title'><br><br>
 
 <%end%>
 <%end%><br><br>
-
-<input type='submit' value='Change Client'><br><br>
 
 </form>

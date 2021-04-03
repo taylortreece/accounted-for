@@ -50,6 +50,24 @@
 <%end%>
 <%end%><br>
 
+<h3>Select existing companies for association if applicable:</h3>
+
+<% @user.client_companies.each do |company| %>
+
+<% if @client.client_companies.include?(company)%>
+<h3>Current Companies: </h3>
+<%=company.name%>
+<%else%>
+
+<label for='current_companies'><%=company.name%></label>
+<input type='checkbox' name='current_companies[][company_name]' id='current_companies' value='<%=company.name%>'><br>
+
+<label for='current_company_title'>Title: </label>
+<input type='text' name='current_companies[][titles]' id=current_company_title placeholder='Enter <%=@client.first_name + " " + @client.last_name%> title'><br><br>
+
+<%end%>
+<%end%><br><br>
+
 <input type='submit' value='Next'><br><br>
 
 </form>

@@ -1,0 +1,42 @@
+<h3 class='logo'><a href='/users/<%=@user.slugged_username%>/all'>Home</a></h3>
+
+<div class='navbar'>
+  <a href="/notes/all">Notes</a>
+  <a href="/tasks/all">Tasks</a>
+  <a href="/users/<%=@user.slugged_username%>/all">Notifications</a>
+
+  <a href="/clients/all">Clients</a>
+  <a href="/client-companies/all">Client Companies</a>
+  <a href="/my-companies/all">My Businessees</a>
+
+  <a href="/profiles/<%=@user.slugged_username%>">Profile</a>
+  <a href="/settings/all">Settings</a>
+  <a href="/logout">Logout</a>
+</div>
+
+<h1>Clients Companies:</h1>
+
+<%if @user_client_companies.empty?%>
+<p>You do not have client companies. <a href='/client-companies/new'>Add some?</a></p>
+<%else%>
+<a href='/client-companies/new'>Add clients companies</a>
+<%@user_client_companies.each do |c|%>
+<p>Name: <a href='/client-companies/<%=c.name%>'><%=c.name%></a></p>
+<p>Address: <%=c.city + ", " + c.state + ". " + c.address + " " + c.zip_code.to_s%></p>
+<p>Industry: <%=c.industry%></p>
+<p>User Company Association: <%=c.user_company.name%></p>
+<p>Discount: <%=c.discount.to_s + '%'%></p>
+<a href='/client-companies/<%=c.name%>/edit'>edit</a>
+<a href='/client-companies/<%=c.name%>/delete'>delete</a>
+<%end%>
+<%end%>
+
+<!--create_table "user_companies", force: :cascade do |t|
+    t.string "name"
+    t.string "state"
+    t.string "city"
+    t.integer "zip_code"
+    t.string "address"
+    t.string "industry"
+    t.integer "user_id"
+  end -->

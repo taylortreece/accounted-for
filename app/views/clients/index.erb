@@ -20,12 +20,22 @@
 <p>You do not have clients. <a href='/clients/new'>Add some?</a></p>
 <%else%>
 <a href='/clients/new'>Add clients.</a>
-<%@user_clients.each do |c|%>
-<p>Name: <a href='/clients/<%=c.slugged_name%>/edit'><%=c.first_name + " " + c.last_name%></a></p>
-<p>Job Title: <%=c.client_job_titles.first.name%></p>
-<p>Email: <%=c.email%></p>
-<p>Companies: <%c.client_companies.each do |c|%>
-<%=c.name%><br>
+<%@user_clients.each do |client|%>
+<p>Name: <a href='/clients/<%=client.slugged_name%>/edit'><%=client.first_name + " " + client.last_name%></a></p>
+<p>Email: <%=client.email%></p>
+<%if client.client_companies.empty?%>
+<p>Companies:</p>
+<a href='/client-companies/new'>add companies</a>
+<%else%>
+<p>Companies:<br><br><br><%client.client_companies.each do |client_company|%>
+<h3><%=client_company.name%></h3>
+<%client_company.client_job_titles.each do |title|%>
+<%if title.client_id == client.id %>
+<p>Company Title: <%=title.name%></p>
+<%end%>
+<a href='/clients/<%=client.slugged_name%>/remove_company/<%=client_company.name%>'>remove company from client</a><br>
+<%end%><br>
+<%end%><br>
 <%end%>
 <%end%>
 <%end%>

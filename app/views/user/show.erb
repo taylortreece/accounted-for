@@ -3,7 +3,6 @@
 <div class='navbar'>
   <a href="/notes/all">Notes</a>
   <a href="/tasks/all">Tasks</a>
-  <a href="/users/<%=@user.slugged_username%>/all">Notifications</a>
 
   <a href="/clients/all">Clients</a>
   <a href="/client-companies/all">Client Companies</a>
@@ -12,16 +11,10 @@
   <a href="/profiles/<%=@user.slugged_username%>">Profile</a>
   <a href="/settings/all">Settings</a>
   <a href="/logout">Logout</a>
-</div>
+</div><br><br>
 
-<h1>Tasks:</h1>
-<%if @user.tasks.empty?%>
-<p>You do not have tasks. <a href='/tasks/new'>Create some?</a>
-<%else%>
-<%@user.tasks.each do |task|%>
-<h3><a href='/tasks/<%=task.title%>'><%=task.title%></a></h3>
-<p><%=task.user_company.name%></p>
-<p><%=task.description%></p>
-<p><%=task.deadline%></p><br>
-<%end%>
-<%end%>
+<h1><%=@user.first_name + " " + @user.last_name%></h1>
+<p>Email: <%=@user.email%></p>
+<p>Username: <%=@user.username%></p>
+<a href='/users/<%=@user.slugged_username%>/profile/edit'>Edit Profile</a>
+<a href='/users/<%=@user.slugged_username%>/profile/delte'>Delete Profile</a>

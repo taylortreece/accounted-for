@@ -9,4 +9,5 @@ use NoteController
 use TaskController
 use ClientController
 use ClientCompanyController
+use UserCompanyController
 run ApplicationController
