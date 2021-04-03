@@ -9,7 +9,7 @@ class ApplicationController < Sinatra::Base
     end
   
     get '/' do
-      erb :index
+      erb :index, :layout => :'/layouts/login_layout'
     end
 
     post '/login' do
@@ -24,7 +24,7 @@ class ApplicationController < Sinatra::Base
     end
 
     get '/signup/user_information' do
-      erb :signup
+      erb :signup, :layout => :'/layouts/login_layout'
     end
 
     post '/signup/user_information' do
@@ -44,7 +44,7 @@ class ApplicationController < Sinatra::Base
     get '/signup/:slugged_username/user_company/:num' do
       @user=current_user
       @number_of_user_companies=params[:num]
-      erb :'/user_companies/signup'
+      erb :'/user_companies/signup', :layout => :'/layouts/login_layout'
     end
 
     post '/signup/user_company/:id' do
