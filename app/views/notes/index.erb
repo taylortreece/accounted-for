@@ -4,8 +4,10 @@
 <p>You do not have notes. <a href='/notes/new'>Create some?</a>
 <%else%>
 <%@user.notes.each do |note|%>
+<div class='content'>
 <h3><a href='/notes/<%=note.title%>'><%=note.title%></a></h3>
 <p><%=note.user_company.name%></p>
 <p><%=note.description%></p><br>
+</div>
 <%end%>
 <%end%>

@@ -1,6 +1,30 @@
-<h3 class='logo'><a href='/users/<%=@user.slugged_username%>/all'>Home</a></h3>
+<style>
+  .navbar {
+    font-size: 1.1em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  body {
+    height: 100%;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+  .content {
+    margin: auto;
+    width: 35%;
+    padding: 25px;
+    border: 1px solid black;
+    border-radius: 25px;
+    background: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+</style>
 
 <div class='navbar'>
+<a href='/users/<%=@user.slugged_username%>/all'><img src="./css/img/e4af3c8539d54ecca06b79256fcd8aff.png"></a>
   <a href="/notes/all">Notes</a>
   <a href="/tasks/all">Tasks</a>
 
@@ -14,3 +38,6 @@
 </div><br><br>
 
 <%=yield%>
+
+<footer>
+<p>Accounted for 2021</p>

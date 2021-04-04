@@ -4,14 +4,14 @@
 <p>Choose associated company:</p>
 <%@user.user_companies.each do |c|%>
 <label for='user_company'><%=c.name%></label>
-<input type='radio' name='user_company' id='user_company' value='<%=c.name%>' placeholder='enter associated company of this note'><br>
+<input type='radio' name='user_company' id='user_company' value='<%=c.name%>' placeholder='enter associated company of this note' required><br>
 <%end%><br><br>
 
 <label for='title'>Title of note: </label>
-<input type='text' name='note[title]' id='title' placeholder='enter title of note'><br><br>
+<input type='text' name='note[title]' id='title' placeholder='enter title of note' required><br><br>
 
 <label for='content'>Content of note: </label>
-<input type='textbox' name='note[description]' id='content' placeholder='enter content of note'><br><br>
+<input type='textbox' name='note[description]' id='content' placeholder='enter content of note' required><br><br>
 
 <input type='submit' id='submit' value='Create Note'>
 

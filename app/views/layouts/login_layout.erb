@@ -12,23 +12,54 @@
 </header>
 
 <style>
+
+header {
+}
+
 main {
+}
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+h1, h2, h3 {
   margin: auto;
-  width: 50%;
+  width: 30%;
   padding: 10px;
+  text-align: center;
 }
 
 form {
-    margin: auto;
-    width: 50%;
-border: 5px solid red;}
+  margin: auto;
+  width: 35%;
+  padding: 25px;
+  border: 1px solid black;
+  border-radius: 25px;
+  background: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
 
 label {
     color: black;
     font-size: 20px
 }
+
+.signup {
+  margin: auto;
+  width: 35%;
+  padding: 25px;
+}
 </style>
 
 <main id='main'>
-<%=yield%>
+  <body>
+   <%=yield%>
+  </body>
 </main>
