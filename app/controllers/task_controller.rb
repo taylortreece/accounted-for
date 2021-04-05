@@ -48,5 +48,11 @@ class TaskController < ApplicationController
         redirect "/users/#{current_user.slugged_username}/all"
     end
 
+    get '/tasks/:title/delete' do
+        Task.find_by(title: params[:title]).destroy
+
+        redirect "/users/#{current_user.slugged_username}/all"
+    end
+
 
 end

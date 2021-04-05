@@ -7,9 +7,11 @@
 <%if !@client_company.clients.empty?%>
 <h3>Clients: </h3>
 <%@client_company.clients.each do |c|%>
+<div class='content'>
 <p>Client: <a href='/clients/<%=c.slugged_name%>/edit'><%=c.first_name + " " + c.last_name%></a></p>
 <p>Email: <%=c.email%></p><br>
 <%end%>
+</div>
 <%else%>
 <p><a href='/clients/new'>You need clients!</a></p>
 <%end%>

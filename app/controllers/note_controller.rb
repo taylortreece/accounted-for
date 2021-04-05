@@ -49,4 +49,9 @@ class NoteController < ApplicationController
         redirect "/users/#{current_user.slugged_username}/all"
     end
 
+    get '/notes/:title/delete' do
+        Note.find_by(title: params[:title]).destroy
+
+        redirect "/users/#{current_user.slugged_username}/all"
+    end
 end

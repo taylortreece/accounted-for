@@ -1,6 +1,7 @@
 <h1>My Companies</h1>
 <a href='/my-companies/new'>add a company</a><br><br>
 <%@user.user_companies.each do |c|%>
+<div class='content'>
 <h3><a href='/my-companies/<%=c.id%>'><%=c.name%></a></h3>
 <p>Address: <%=c.city + ", " + c.state + ". " + c.address + " " + c.zip_code.to_s%></p>
 <p>Industry: <%=c.industry%></p>
@@ -14,4 +15,5 @@
 <%end%><br>
 <a href='/my-companies/<%=c.id%>/edit'>Edit</a>
 <a href='/my-companies/<%=c.id%>/delete'>Delete</a><br><br><br>
+</div>
 <%end%>

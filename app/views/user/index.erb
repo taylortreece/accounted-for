@@ -6,35 +6,41 @@ border:4px solid #ccc;
 overflow:auto;
 box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
 >
-<a href='/tasks/new'>Create New Task</a>
-<a href='/notes/new'>Create New Note</a>
-<a href='/notifications/new'>Create New Notification</a>
 
-<h2>Notes</h2>
+<strong><a class='box-link' href='/notes/new'>Create New Note</a>
+<a class='box-link' href='/tasks/new'>Create New Task</a></strong>
+
+<div class='scroll-content'>
+<h2 class='index-header'><a href='/notes/all'>Notes</a></h2><br><br>
 <%if @user.notes.empty?%>
 <p>You do not have notes. <a href='/notes/new'>Create some?</a>
 <%else%>
-<a href='/notes/new'>Add notes</a>
 <%@user.notes.each do |note|%>
+<div class='content-index'>
 <h3><a href='/notes/<%=note.title%>'><%=note.title%></a></h3>
-<p><%=note.user_company.name%></p>
-<p><%=note.description%></p><br>
+<p><a href='/my-companies/all'><strong><%=note.user_company.name%></strong></a></p>
+<p><%=note.description%></p>
+<strong><a href='/notes/<%=note.title%>'>edit</a>
+<a href='/notes/<%=note.title%>/delete'>delete</a></strong>
+</div>
 <%end%>
 <%end%>
+<br><br>
 
-<h2>Tasks</h2>
+<h2 class='index-header'><a href='/tasks/all'>Tasks</a></h2><br><br>
 <%if @user.tasks.empty?%>
 <p>You do not have tasks. <a href='/tasks/new'>Create some?</a>
 <%else%>
-<a href='/tasks/new'>Add tasks</a>
 <%@user.tasks.each do |task|%>
+<div class='content-index'>
 <h3><a href='/tasks/<%=task.title%>'><%=task.title%></a></h3>
-<p><%=task.user_company.name%></p>
+<p><a href='/my-companies/all'><strong><%=task.user_company.name%></a></strong></p>
 <p><%=task.description%></p>
 <p><%=task.deadline%></p><br>
+<strong><a href='/tasks/<%=task.title%>/edit'>edit</a>
+<a href='/tasks/<%=task.title%>/delete'>delete</a></strong>
+</div>
 <%end%>
 <%end%>
 </div>
-
-
-  
+</div>

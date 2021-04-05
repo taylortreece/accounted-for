@@ -5,13 +5,15 @@
 <%else%>
 <a href='/client-companies/new'>Add clients companies</a>
 <%@user_client_companies.each do |c|%>
-<p>Name: <a href='/client-companies/<%=c.name%>'><%=c.name%></a></p>
+<div class='content'>
+<h2><a href='/client-companies/<%=c.name%>'><%=c.name%></a></h2>
 <p>Address: <%=c.city + ", " + c.state + ". " + c.address + " " + c.zip_code.to_s%></p>
 <p>Industry: <%=c.industry%></p>
 <p>User Company Association: <%=c.user_company.name%></p>
 <p>Discount: <%=c.discount.to_s + '%'%></p>
 <a href='/client-companies/<%=c.name%>/edit'>edit</a>
 <a href='/client-companies/<%=c.name%>/delete'>delete</a>
+</div>
 <%end%>
 <%end%>
 
