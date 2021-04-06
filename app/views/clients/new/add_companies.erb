@@ -47,26 +47,30 @@
 </select><br><br>
 <%end%><br>
 
-<%if !@user.client_companies.empty?%>
 <% @user.client_companies.each do |company| %>
-
-<h3>Select existing companies for association if applicable:</h3>
 
 <% if @client.client_companies.include?(company)%>
 <h3>Current Companies: </h3>
-<%=company.name%>
-<%else%>
-
-<label for='current_companies'><%=company.name%></label>
-<input type='checkbox' name='current_companies[][company_name]' id='current_companies' value='<%=company.name%>'><br>
-
-<label for='current_company_title'>Title: </label>
-<input type='text' name='current_companies[][titles]' id=current_company_title placeholder='Enter <%=@client.first_name + " " + @client.last_name%> title'><br><br>
-
-<%end%>
+<%=company.name%><br><br>
 <%end%>
 <%end%>
 
-<input type='submit' value='Next'><br><br>
+<h3>Select existing companies for association if applicable:</h3>
+
+<%counter=0%>
+<% @user.client_companies.each do |company| %>
+
+<% if !@client.client_companies.include?(company)%>
+
+<label for='<%=company.name%>'><%=company.name%></label>
+<input type='checkbox' name='current_companies[<%=counter%>][company_name]' id='<%=company.name%>' value='<%=company.name%>'><br>
+
+<label for='<%=company%>'>Title: </label>
+<input type='text' name='current_companies[<%=counter%>][titles]' id='<%=company%>' placeholder='Enter <%=@client.first_name + " " + @client.last_name%> title'><br><br>
+<%counter+=1%>
+<%end%>
+<%end%><br><br>
+
+<input type='submit' value='Submit'>
 
 </form>

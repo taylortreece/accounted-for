@@ -66,12 +66,17 @@ class ClientController < ApplicationController
         redirect '/'
       else
         client=Client.find_by(slugged_name: params[:slug])
+        counter=0
 
         if params[:current_companies]!=nil
-          params[:current_companies].each do |info|
-          if !info[:titles].blank? 
+        params[:current_companies].length.times do
+          
+        if params[:current_companies]["#{counter}".to_s][:company_name]!=nil
+          info=params[:current_companies]["#{counter}".to_s]
+
             existing_company=ClientCompany.find_by(name: info[:company_name])
             existing_company.client=client
+            client.client_companies<<existing_company
             existing_company_title=ClientJobTitle.find_or_create_by(name: info[:titles])
             existing_company_title.client=client
             existing_company_title.client_company=existing_company
@@ -83,6 +88,7 @@ class ClientController < ApplicationController
               flash[:fatal]="New client could not be added."
             end
           end
+          counter+=1
         end
       end
 
@@ -94,13 +100,12 @@ class ClientController < ApplicationController
         @client_company.client = client
         @client_company.user_company=UserCompany.find_by(name: params[:user_company])
         @client_company.save
-        binding.pry
         
         title=ClientJobTitle.new(name: params[:client]["#{counter}".to_i][:client_job_title])
         title.client_company_id = @client_company.id
         title.client_id = client.id
         title.save
-        counter+=1
+        counter+1
       end
 
         if !@client_company.save  || !client.save
@@ -163,7 +168,6 @@ class ClientController < ApplicationController
     end
 
     patch '/client/:slug/edit/company' do
-      binding.pry
       if !logged_in?
         flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
         redirect '/'
@@ -172,19 +176,18 @@ class ClientController < ApplicationController
         counter=0
         titles=[]
 
+        if params[:current_companies]!=nil
         params[:current_companies].length.times do
-          binding.pry
-        if params[:current_companies]["#{counter}".to_s][:company]!=nil
+        if params[:current_companies]["#{counter}".to_s][:company_name]!=nil
           info=params[:current_companies]["#{counter}".to_s]
-          binding.pry
 
           existing_company=ClientCompany.find_by(name: info[:company_name])
           existing_company.client=client
+          client.client_companies<<existing_company
           existing_company_title=ClientJobTitle.find_or_create_by(name: info[:titles])
           existing_company_title.client=client
           existing_company_title.client_company=existing_company
-          counter+=1
-          binding.pry
+          
             if client.save
               existing_company.save
               existing_company_title.save
@@ -194,7 +197,9 @@ class ClientController < ApplicationController
               flash[:fatal]='Could not update client.'
             end
           end
+          counter+=1
         end
+      end
 
         if params[:client_companies]!=nil
           counter=0

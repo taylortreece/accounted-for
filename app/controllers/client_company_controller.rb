@@ -100,4 +100,11 @@ class ClientCompanyController < ApplicationController
     end
   end
 
+  get '/client-companies/:name/add-clients' do
+    @client_company=ClientCompany.find_by(name: params[:name])
+    @user=current_user
+    
+    erb :'/client_companies/add_clients'
+  end
+
 end

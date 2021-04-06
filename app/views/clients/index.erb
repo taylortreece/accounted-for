@@ -17,8 +17,8 @@
 <%client_company.client_job_titles.each do |title|%>
 <%if title.client_id == client.id %>
 <p>Company Title: <%=title.name%></p>
-<%end%>
 <a href='/clients/<%=client.slugged_name%>/remove_company/<%=client_company.name%>'>remove company</a><br>
+<%end%>
 <%end%><br>
 <%end%><br>
 <%end%>

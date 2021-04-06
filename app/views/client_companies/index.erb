@@ -11,6 +11,7 @@
 <p>Industry: <%=c.industry%></p>
 <p>User Company Association: <%=c.user_company.name%></p>
 <p>Discount: <%=c.discount.to_s + '%'%></p>
+<a href='/client-companies/<%=c.name%>/add-clients'>add clients to company</a><br><br>
 <a href='/client-companies/<%=c.name%>/edit'>edit</a>
 <a href='/client-companies/<%=c.name%>/delete'>delete</a>
 </div>
