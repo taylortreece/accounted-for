@@ -16,7 +16,7 @@
 <p>Choose associated company:</p>
 <%@user.user_companies.each do |c|%>
 <label for='user_company'><%=c.name%></label>
-<input type='radio' name='user_company' id='user_company' value='<%=c.name%>' required><br>
+<input type='radio' name='user_company' id='user_company' value="<%=c.name%>" required><br>
 <%end%><br><br>
 
 <label for='name'>*Company Name: </label>
@@ -44,7 +44,7 @@
 <%Industry.new.industries_list.each do |industry|%>
 
 <label for='industry_list'><%=industry%></label>
-<input type='checkbox' name='client_companies[][industry]' id='industry_list' value='<%=industry%>'><br><br>
+<input type='checkbox' name='client_companies[][industry]' id='industry_list' value="<%=industry%>"><br><br>
 
 <%end%>
 <%end%>

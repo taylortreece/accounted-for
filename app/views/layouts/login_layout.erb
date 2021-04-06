@@ -5,10 +5,9 @@
   <meta charset="utf-8">
   <meta name="description" content="Accounted For">
   <title>Accounted For</title>
-  <link href="ACCOUNTED-FOR-APP/css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <header>
-<a href='/'><img src="./css/img/e4af3c8539d54ecca06b79256fcd8aff.png"></a>
+<a href='/'><img src="/img/logo.png"></a>
 </header>
 
 <style>
@@ -27,6 +26,7 @@ body {
     margin: auto;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-image: url("/img/login-login.jpg");
 }
 
 h1, h2, h3 {
@@ -56,10 +56,48 @@ label {
   width: 35%;
   padding: 25px;
 }
+
+footer {
+  position: fixed;
+  text-align: center;
+  bottom: 0; 
+  width: 100%;
+  background-color: #E8E8E8;
+}
+
+.flash-message {
+  width: 100%;
+  background-color: 90ee90;
+  text-align: center;
+}
+
+.flash-warning {
+  width: 100%;
+  background-color: #FFFF66;
+  text-align: center;
+}
+
+.flash-fatal {
+  width: 100%;
+  background-color: #ff6347;
+  text-align: center;
+}
+
 </style>
 
 <main id='main'>
   <body>
+<%if !flash.empty?%>
+  <%flash.each do |name, message|%>
+  <div class='flash-<%=name%>'>
+  <strong><%=message%></strong>
+  </div>
+  <%end%>
+<%end%>
+
    <%=yield%>
+
+<footer>&#169; 2021 <strong>Accounted For</strong></footer>
+
   </body>
 </main>

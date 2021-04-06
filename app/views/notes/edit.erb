@@ -1,7 +1,8 @@
-<h2>Edit Note: </h2>
-<p><%=@note.title%></p>
+<h1><%=@note.title%></h1>
 <p><%=@note.user_company.name%></p>
 <p><%=@note.description%></p><br>
+
+<h2>Edit Note:</h2>
 
 <form action='/notes/<%=@note.title%>/edit' method='post'>
 <input type='hidden' name='_method' value='patch'>
@@ -9,7 +10,7 @@
 <p>Choose associated company of this note:</p>
 <%@user.user_companies.each do |c|%>
 <label for='user_company'><%=c.name%></label>
-<input type='radio' name='user_company' id='user_company' value='<%=c.name%>' placeholder='choose associated company of this note'><br>
+<input type='radio' name='user_company' id='user_company' value="<%=c.name%>" placeholder='choose associated company of this note'><br>
 <%end%><br><br>
 
 <label for='title'>Title of note: </label>
@@ -22,7 +23,7 @@
 
 </form>
 
-<h1>Delete note?</h1>
+<h2>Delete note?</h2>
 
 <form action='/notes/<%=@note.title%>/delete' method='post'>
 <input type='hidden' name='_method' value='delete'>

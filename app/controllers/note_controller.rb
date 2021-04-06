@@ -2,8 +2,13 @@ class NoteController < ApplicationController
     layout :"/app/views/layouts/main.html.erb"
 
     get '/notes/all' do
-        @user=current_user
-        erb :'/notes/index'
+        if !logged_in?
+          flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+          redirect '/'
+        else
+          @user=current_user
+          erb :'/notes/index'
+      end
     end
 
     get '/notes/new' do 
@@ -11,47 +16,90 @@ class NoteController < ApplicationController
           @user=current_user
           erb :'/notes/new'
         else
-            redirect '/'
+          flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+          redirect '/'
         end
-    end
+      end
 
     post '/notes/new' do
-        note=Note.new(params[:note])
-        note.user_company=UserCompany.find_by(name: params[:user_company])
-        note.user=current_user
-        if note.save
+        if !logged_in?
+          flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+          redirect '/'
+        else  
+          note=Note.new(params[:note])
+          note.user_company=UserCompany.find_by(name: params[:user_company])
+          note.user=current_user
+
+          if note.save
+            flash[:message]="#{note.title} successfully created!"
             redirect "/users/#{current_user.slugged_username}/all"
-        else
+          else
+            flash[:fatal]="Could not create new company. Try again."
             redirect "/notes/new"
-            #insert flash
-        end
+          end
+       end
     end
 
     get '/notes/:title' do
-        @user=current_user
-        @note=Note.find_by(title: params[:title])
+        if !logged_in?
+          flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+          redirect '/'
+        else
+          @user=current_user
+          @note=Note.find_by(title: params[:title])
         
         erb :'/notes/edit'
+      end
     end
 
     patch '/notes/:title/edit' do
-        note=Note.find_by(title: params[:title])
-        note.update(params[:note])
-        note.user_company=UserCompany.find_by(name: params[:user_company]) unless params[:user_company]==nil
-        note.save
+        if !logged_in?
+          flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+          redirect '/'
+        else  
+          note=Note.find_by(title: params[:title])
+
+          if note.update(params[:note])
+            note.user_company=UserCompany.find_by(name: params[:user_company]) unless params[:user_company]==nil 
+            note.save
+            flash[:message]="#{note.title} updated!"
+          else
+            flash[:fatal]="Could not update #{note.title}"
+          end
 
         redirect "/users/#{current_user.slugged_username}/all"
+      end
     end
 
     delete '/notes/:title/delete' do
-        Note.find_by(title: params[:title]).destroy
+        if !logged_in?
+          flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+          redirect '/'
+        else
+  
+          if Note.find_by(title: params[:title]).destroy
+            flash[:message]='Successfully deleted!'
+          else
+            flash[:fatal]='Could not delete note.'
+          end
 
         redirect "/users/#{current_user.slugged_username}/all"
+      end
     end
 
     get '/notes/:title/delete' do
-        Note.find_by(title: params[:title]).destroy
+        if !logged_in?
+          flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+          redirect '/'
+        else  
+        
+          if Note.find_by(title: params[:title]).destroy
+            flash[:message]='Successfully deleted!'
+          else
+            flash[:fatal]='Could not delete note.'
+          end
 
         redirect "/users/#{current_user.slugged_username}/all"
+      end
     end
 end

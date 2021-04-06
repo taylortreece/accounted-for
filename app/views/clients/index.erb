@@ -10,7 +10,7 @@
 <p>Email: <%=client.email%></p>
 <%if client.client_companies.empty?%>
 <p>Companies:</p>
-<a href='/client-companies/new'>add companies</a>
+<p>There are no companies associated with this client</p>
 <%else%>
 <p>Companies:<br><br><br><%client.client_companies.each do |client_company|%>
 <h3><a href='/client-companies/<%=client_company.name%>'><%=client_company.name%></a></h3>
@@ -22,6 +22,8 @@
 <%end%><br>
 <%end%><br>
 <%end%>
+<a href='/clients/<%=client.slugged_name%>/edit'>edit</a>
+<a href='/clients/<%=client.slugged_name%>/delete'>delete</a>
 </div>
 <%end%>
-<%end%>
+<%end%><br><br>

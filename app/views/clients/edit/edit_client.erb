@@ -1,9 +1,11 @@
+<br><br><div class='content'>
 <h1><%=@client.first_name + " " + @client.last_name%></h1>
 <p>Job Title: <%=@client.client_job_titles.first.name%></p>
 <p>Email: <%=@client.email%></p>
 <p>Companies: <%@client.client_companies.each do |c|%>
-<%=c.name%>
+<a href='/client-companies/<%=c.name%>'><%=c.name%></a>
 <%end%>
+</div>
 
 <h2>Edit:</h2>
 

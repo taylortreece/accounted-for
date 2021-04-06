@@ -1,7 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Accounted For">
+  <title>Accounted For</title>
+</head>
+<header>
+<div class='navbar'>
+<a class='logo' href='/users/<%=@user.slugged_username%>/all'><img class='logo' src="/img/logo.png"></a>
+  <a class='nav-text' href="/notes/all">Notes</a>
+  <a class='nav-text' href="/tasks/all">Tasks</a>
+
+  <a class='nav-text' href="/clients/all">Clients</a>
+  <a class='nav-text' href="/client-companies/all">Client Companies</a>
+  <a class='nav-text' href="/my-companies/all">My Businessees</a>
+
+  <a class='nav-text' href="/users/<%=@user.slugged_username%>/profile">Profile</a>
+  <a class='nav-text' href="/logout">Logout</a>
+</div><br><br>
+</header>
+
+
 <style>
   .navbar {
     font-size: 1.1em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding-top: 0;
+    background-color: white;
   }
 
   body {
@@ -9,7 +39,19 @@
     margin: auto;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-image: url("/img/background-home.jpg");
 }
+
+  form {
+    margin: auto;
+    width: 35%;
+    padding: 25px;
+    border: 1px solid black;
+    border-radius: 25px;
+    background: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+  
 
   .content {
     margin: auto;
@@ -84,6 +126,12 @@
     padding-left: 50px;
   }
 
+  .logo {
+    width: 80px;
+    height: auto;
+    padding: 0px;
+  }
+
   h2 {
     margin: auto;
     width: 50%;
@@ -101,26 +149,39 @@
   }
 
   footer {
-    position: 
-  }
+  position: fixed;
+  text-align: center;
+  bottom: 0; 
+  width: 100%;
+  background-color: #E8E8E8;
+}
 
+.flash-message {
+  width: 100%;
+  background-color: #90ee90;
+  text-align: center;
+}
+
+.flash-warning {
+  width: 100%;
+  background-color: #FFFF66;
+  text-align: center;
+}
+.flash-fatal {
+  width: 100%;
+  background-color: #ff6347;
+  text-align: center;
+}
 </style>
 
-<div class='navbar'>
-<a href='/users/<%=@user.slugged_username%>/all'><img src="./css/img/e4af3c8539d54ecca06b79256fcd8aff.png"></a>
-  <a class='nav-text' href="/notes/all">Notes</a>
-  <a class='nav-text' href="/tasks/all">Tasks</a>
-
-  <a class='nav-text' href="/clients/all">Clients</a>
-  <a class='nav-text' href="/client-companies/all">Client Companies</a>
-  <a class='nav-text' href="/my-companies/all">My Businessees</a>
-
-  <a class='nav-text' href="/users/<%=@user.slugged_username%>/profile">Profile</a>
-  <a class='nav-text' href="/logout">Logout</a>
-</div><br><br>
+<%if !flash.empty?%>
+  <%flash.each do |name, message|%>
+  <div class='flash-<%=name%>'>
+  <strong><%=message%></strong>
+  </div>
+  <%end%>
+<%end%>
 
 <%=yield%>
 
-<footer>
-<p>Accounted for 2021</p>
-</footer>
+<br><br><footer>&#169; 2021 <strong>Accounted For</strong></footer>

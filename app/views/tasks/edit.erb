@@ -4,22 +4,16 @@
 <p><%=@task.description%></p>
 <p><%=@task.deadline%></p><br>
 
-<h1>Mark task as completed:</h1>
-
-<label for='completed?'>Complete</label>
-<input type='radio' name='completed?' id='completed?' value='true'><br><br>
-
 <h2>Edit Task:</h2>
-
-<p>Choose associated company of this task:</p>
-
 
 <form action='/tasks/<%=@task.title%>/edit' method='post'>
 <input type='hidden' name='_method' value='patch'>
 
+<p>Choose associated company of this task:</p>
+
 <%@user.user_companies.each do |c|%>
 <label for='user_company'><%=c.name%></label>
-<input type='radio' name='user_company' id='user_company' value='<%=c.name%>' placeholder='enter associated company of this task'><br>
+<input type='radio' name='user_company' id='user_company' value="<%=c.name%>" placeholder='enter associated company of this task'><br>
 <%end%><br><br>
 
 <label for='title'>*Name of Task: </label>
@@ -34,7 +28,7 @@
 <input type='submit' id='submit' value='Edit task'>
 </form>
 
-<h1>Delete task entirely?</h1>
+<h2>Delete task entirely?</h2>
 
 <form action='/tasks/<%=@task.title%>/delete' method='post'>
 <input type='hidden' name='_method' value='delete'>

@@ -1,11 +1,6 @@
 <h1>Nice to meet you, <%=@user.first_name%>!</h1>
 
 <h2>Enter your Company Information</h2>
-<h3>Part 2/2:</h3>
-
-<h2>Forms with "*" are required</h2><br>
-
-<h2>Also, more companies can be added later</h2><br>
 
 <form action='/signup/user_company/<%=@user.id%>' method='post'>
 
@@ -15,7 +10,9 @@
 
 <%i+=1%>
 
+<%if @number_of_user_companies.to_i>1%>
 <h3>Company #<%=i%></h3>
+<%end%>
 
 <label for='name'>*Company Name: </label>
 <input type='text' name='user_companies[][name]' id='name' placeholder='enter the company name' required><br><br>
@@ -37,7 +34,7 @@
 
 <label for='industry_list'>Choose an industry:</label>
 
-<select name="user_companies[industry]" id="industry_list">
+<select name="user_companies[][industry]" id="industry_list">
   <%Industry.new.industries_list.each do |industry|%>
     <option value="<%=industry%>"><%=industry%></option>
   <%end%>

@@ -3,7 +3,7 @@
 <p>Choose associated company:</p>
 <%@user.user_companies.each do |c|%>
 <label for='user_company'><%=c.name%></label>
-<input type='radio' name='user_company' id='user_company' value='<%=c.name%>' required><br>
+<input type='radio' name='user_company' id='user_company' value="<%=c.name%>" required><br>
 <%end%><br><br>
 
 <label for='name'>*Company Name: </label>

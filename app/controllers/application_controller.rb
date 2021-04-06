@@ -19,6 +19,7 @@ class ApplicationController < Sinatra::Base
         session[:user_id]=user.id
         redirect "/users/#{current_user.slugged_username}/all"
       else
+        flash[:warning]='The username or password did not match an account. Please try again, or sign up.'
         redirect '/'
       end
     end
@@ -48,8 +49,9 @@ class ApplicationController < Sinatra::Base
     end
 
     post '/signup/user_company/:id' do
-      counter=0
+        counter=0
       params[:user_companies].each do |company|
+
         user_company = UserCompany.new(company)
         user_company.user = current_user
         user_company.save
@@ -66,6 +68,7 @@ class ApplicationController < Sinatra::Base
           user_company.save && current_user.save
         end
       end
+      flash[:message]='Welcome to your new account! Get started by making notes, tasks, or by adding information to your companies'
       
       redirect "/users/#{current_user.slugged_username}/all"
     end
@@ -110,45 +113,17 @@ class ApplicationController < Sinatra::Base
 
     # DELETE METHODS BELOW AFTER TESTING #
 
-    get '/delete/:section' do
-
-      case params[:section]
-      when 'users'
+    get '/delete/all' do
         User.all.each do |t|
-            t.destroy
+          t.destroy
         end
-      when 'user_companies'
         UserCompany.all.each do |t|
-            t.destroy
-        end
-      when 'notes'
-        Note.all.each do |t|
           t.destroy
         end
-      when 'tasks'
-        Task.all.each do |t|
+        ClientCompany.all.each do |t|
           t.destroy
         end
-      when 'clients'
         Client.all.each do |t|
-          t.destroy
-        end
-      when 'client_companies'
-        ClientCompany.all.each do |t|
-          t.destroy
-        end
-      when 'titles'
-        ClientJobTitle.all.each do |t|
-          t.destroy
-        end
-      when 'all'
-        User.all.each do |t|
-          t.destroy
-        end
-        UserCompany.all.each do |t|
-          t.destroy
-        end
-        ClientCompany.all.each do |t|
           t.destroy
         end
         Note.all.each do |t|
@@ -163,17 +138,9 @@ class ApplicationController < Sinatra::Base
         UserJobTitle.all.each do |t|
           t.destroy
         end
+        flash[:message]='Successfully deleted your profile.'
+
         redirect '/'
-      end
-      redirect "/users/#{current_user.slugged_username}/all"
-  end
-
-  get "/clients/companies/:slug/:num" do
-    @user=current_user
-    @client=Client.find_by(slugged_name: params[:slug])
-    @num=params[:num]
-
-    erb :'/clients/new/add_companies'
-  end
+    end
 
   end

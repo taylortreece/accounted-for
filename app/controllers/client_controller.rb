@@ -1,72 +1,112 @@
 class ClientController < ApplicationController
 
     get '/clients/all' do
+      if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
+      else
         @user=current_user
         @user_clients = user_clients
         erb :'/clients/index'
+      end
     end
 
     get '/clients/new' do
+      if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
+      else
         @user=current_user
 
         erb :'/clients/new/new_client'
+      end
     end
 
     post '/clients/new' do
+      if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
+      else
         num=params[:number_of_new_client_companies]
 
         if Client.find_by(email: params[:client][:email])
+          flash[:warning]='Client email already exists.'
           redirect '/clients/all'
         else
-        client=Client.new(params[:client])
-        client.slugged_name=client.first_name+'-'+client.last_name.gsub(/\s+/, "")
+          client=Client.new(params[:client])
+          client.slugged_name=client.first_name+'-'+client.last_name.gsub(/\s+/, "")
+
           if client.save
-            client.save
+            flash[:message]="#{client.first_name + ' ' + client.last_name} successfully added to clients!"
             redirect "/clients/companies/#{client.slugged_name}/#{num}"
           else
+            flash[:fatal]="Could not add new client."
             redirect '/clients/new'
           end
-       end
+        end
+      end
     end
 
     get "/clients/companies/:slug/:num" do
-      @user=current_user
-      @client=Client.find_by(slugged_name: params[:slug])
-      @num=params[:num]
+      if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
+      else
+        @user=current_user
+        @client=Client.find_by(slugged_name: params[:slug])
+        @num=params[:num]
 
       erb :'/clients/new/add_companies'
+      end
     end
 
     get '/clients/:slug/edit' do
-      @user=current_user
-      @client=Client.find_by(slugged_name: params[:slug])
+      if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
+      else
+        @user=current_user
+        @client=Client.find_by(slugged_name: params[:slug])
 
       erb :'/clients/edit/edit_client'
+      end
     end
 
     post '/client/company/:slug' do
+      if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
+      else
         client=Client.find_by(slugged_name: params[:slug])
 
-        params[:current_companies].each do |info|
+        if params[:current_companies]!=nil
+          params[:current_companies].each do |info|
           if !info[:titles].blank? 
             existing_company=ClientCompany.find_by(name: info[:company_name])
             existing_company.client=client
             existing_company_title=ClientJobTitle.find_or_create_by(name: info[:titles])
             existing_company_title.client=client
             existing_company_title.client_company=existing_company
-            client.save
+            
+            if client.save
             existing_company.save
             existing_company_title.save
+            else
+              flash[:fatal]="New client could not be added."
+            end
           end
         end
+      end
 
         if !params[:client_companies].nil?
         counter=0
+
       params[:client_companies].each do |company|
         @client_company = ClientCompany.new(company)
         @client_company.client = client
         @client_company.user_company=UserCompany.find_by(name: params[:user_company])
         @client_company.save
+        binding.pry
         
         title=ClientJobTitle.new(name: params[:client]["#{counter}".to_i][:client_job_title])
         title.client_company_id = @client_company.id
@@ -74,54 +114,80 @@ class ClientController < ApplicationController
         title.save
         counter+=1
       end
-      binding.pry
+
         if !@client_company.save  || !client.save
+          flash[:warning]="#{client.first_name + ' ' + client.last_name} was saved as a client, but something went wrong with the company."
           redirect "/clients/companies/#{client.slugged_name}/#{num}"
         else
           @client_company.save && client.save
+          flash[:message]="#{client.first_name + ' ' + client.last_name} and their companies were added!"
+  
         end
       end
-      redirect "/clients/all"
     end
+    redirect "/clients/all"
+  end
 
     patch '/clients/:slug/edit' do
-      client=Client.find_by(slugged_name: params[:slug])
-      client.update(params[:client])
-      num=params[:number_of_new_client_companies]
-      
-      if client.save
-        client.save
-        redirect "/client/#{client.slugged_name}/edit/company/#{num}"
+      if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
       else
-        redirect '/client/#{client.slugged_name}/edit'
+      client=Client.find_by(slugged_name: params[:slug])
+       
+        if client.update(params[:client])
+          num=params[:number_of_new_client_companies]
+          client.save
+
+          flash[:message]="#{client.first_name + ' ' + client.last_name}'s information was updated!"
+          redirect "/client/#{client.slugged_name}/edit/company/#{num}"
+        else
+          flash[:fatal]="Could not update #{client.first_name + ' ' + client.last_name}'s information."
+          redirect '/client/#{client.slugged_name}/edit'
+        end
       end
     end
 
     get "/client/:slug/edit/company/:num" do
-      @user=current_user
-      @user_client_companies=user_client_companies
-      @client=Client.find_by(slugged_name: params[:slug])
-      @num=params[:num]
+      if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
+      else
+        @user=current_user
+        @user_client_companies=user_client_companies
+        @client=Client.find_by(slugged_name: params[:slug])
+        @num=params[:num]
 
       erb :'/clients/edit/add_client_companies'
+      end
     end
 
     patch '/client/:slug/edit/company' do
-      client=Client.find_by(slugged_name: params[:slug])
-      counter=0
-      titles=[]
+      if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
+      else
+        client=Client.find_by(slugged_name: params[:slug])
+        counter=0
+        titles=[]
 
       if params[:current_companies]!=nil
-      params[:current_companies].each do |info|
+        params[:current_companies].each do |info|
         if !info[:titles].blank?
           existing_company=ClientCompany.find_by(name: info[:company_name])
           existing_company.client=client
           existing_company_title=ClientJobTitle.find_or_create_by(name: info[:titles])
           existing_company_title.client=client
           existing_company_title.client_company=existing_company
-          client.save
-          existing_company.save
-          existing_company_title.save
+          
+            if client.save
+              existing_company.save
+              existing_company_title.save
+
+              flash[:message]='Client updated!'
+            else
+              flash[:fatal]='Could not update client.'
+            end
           end
         end
       end
@@ -147,13 +213,29 @@ class ClientController < ApplicationController
        end
      end
      redirect "/clients/all"
-   end
+    end
+  end
 
    get '/clients/:slug/remove_company/:company_name' do
+    if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
+    else
      client=Client.find_by(slugged_name: params[:slug])
      client_company=ClientCompany.find_by(name: params[:company_name])
      client.client_companies.delete(client_company)
 
+     redirect '/clients/all'
+    end
+   end
+
+   get '/clients/:slug/delete' do
+     if Client.find_by(slugged_name: params[:slug]).destroy
+      flash[:message]='Successfully deleted!'
+     else
+      flash[:fatal]='Could not delete client.'
+     end
+     
      redirect '/clients/all'
    end
 
