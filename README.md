@@ -97,3 +97,4 @@ copy the domain in you command prompt and paste it into a web browser.
 ```
 
 ## License Link
+<a href='https://www.gnu.org/licenses/gpl-3.0.en.html'>License link</a>
