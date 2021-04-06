@@ -97,5 +97,3 @@ copy the domain in you command prompt and paste it into a web browser.
 ```
 
 ## License Link
-
-<p class='util--hide'> A link to the license for this code is available <a href='https://www.gnu.org/licenses/gpl-3.0.en.html'>here</a> per instructions on the spec.md file located <a href='https://github.com/Richard-Burd/sinatra-portfolio-project/blob/master/spec.md'>here</a> in the main directory of the GitHub repository. 
