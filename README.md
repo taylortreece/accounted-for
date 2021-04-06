@@ -97,4 +97,4 @@ copy the domain in you command prompt and paste it into a web browser.
 ```
 
 ## License Link
-<a href='https://opensource.org/licenses/MIT'>License link</a>
+<a href='https://opensource.org/licenses/MIT'>MIT License link</a>, <a href='https://github.com/taylortreece/accounted-for/blob/main/LICENSE'> link to license in my project</a>.
