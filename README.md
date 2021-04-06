@@ -8,6 +8,8 @@ This program is a quick way to take notes, set tasks, and catalog relevant infor
 
 This project uses the [Sinatra](http://sinatrarb.com/) library, a framework written in Ruby and used to quickly build web applications.
 
+The focus of this project was to create and utilize an MVC framework with CRUD funcitonality. After using ActiveRecord to create relationships between Models, Sinatra's Base to create Controllers to handle the app's logic and Views to handle the app's UI, the user has the ability to Create, Read, Update, and Destroy information to/from a SQLite database when necessary. 
+
 ## Installation instructions
 
 Clone this repo into your local environment and run the following commands:
