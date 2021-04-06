@@ -60,18 +60,6 @@ class ClientController < ApplicationController
       end
     end
 
-    get '/clients/:slug/edit' do
-      if !logged_in?
-        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
-        redirect '/'
-      else
-        @user=current_user
-        @client=Client.find_by(slugged_name: params[:slug])
-
-      erb :'/clients/edit/edit_client'
-      end
-    end
-
     post '/client/company/:slug' do
       if !logged_in?
         flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
@@ -127,6 +115,18 @@ class ClientController < ApplicationController
     end
     redirect "/clients/all"
   end
+  
+    get '/clients/:slug/edit' do
+      if !logged_in?
+        flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+        redirect '/'
+      else
+        @user=current_user
+        @client=Client.find_by(slugged_name: params[:slug])
+  
+      erb :'/clients/edit/edit_client'
+      end
+    end
 
     patch '/clients/:slug/edit' do
       if !logged_in?
@@ -163,6 +163,7 @@ class ClientController < ApplicationController
     end
 
     patch '/client/:slug/edit/company' do
+      binding.pry
       if !logged_in?
         flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
         redirect '/'
@@ -171,15 +172,19 @@ class ClientController < ApplicationController
         counter=0
         titles=[]
 
-      if params[:current_companies]!=nil
-        params[:current_companies].each do |info|
-        if !info[:titles].blank?
+        params[:current_companies].length.times do
+          binding.pry
+        if params[:current_companies]["#{counter}".to_s][:company]!=nil
+          info=params[:current_companies]["#{counter}".to_s]
+          binding.pry
+
           existing_company=ClientCompany.find_by(name: info[:company_name])
           existing_company.client=client
           existing_company_title=ClientJobTitle.find_or_create_by(name: info[:titles])
           existing_company_title.client=client
           existing_company_title.client_company=existing_company
-          
+          counter+=1
+          binding.pry
             if client.save
               existing_company.save
               existing_company_title.save
@@ -190,9 +195,9 @@ class ClientController < ApplicationController
             end
           end
         end
-      end
 
         if params[:client_companies]!=nil
+          counter=0
         params[:client_companies].each do |company|
         new_client_company = ClientCompany.new(company)
         new_client_company.client = client
@@ -223,7 +228,12 @@ class ClientController < ApplicationController
     else
      client=Client.find_by(slugged_name: params[:slug])
      client_company=ClientCompany.find_by(name: params[:company_name])
-     client.client_companies.delete(client_company)
+     
+     if client.client_companies.delete(client_company)
+      flash[:message]="#{client_company.name} successfully removed from #{client.first_name + ' ' + client.last_name}'s list of companies!"
+     else
+      flash[:fatal]="Could not remove #{client_company.name} from #{client.first_name + ' ' + client.last_name}'s list of companies."
+     end
 
      redirect '/clients/all'
     end

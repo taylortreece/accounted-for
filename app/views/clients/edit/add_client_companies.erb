@@ -4,11 +4,8 @@
 
 <form action='/client/<%=@client.slugged_name%>/edit/company' method='post'>
 <input type='hidden' name='_method' value='patch'>
-
 <%i=0%>
-
 <% @num.to_i.times do unless @num==nil || @num==0%>
-
 <%i+=1%>
 
 <h3>Company #<%=i%></h3>
@@ -40,32 +37,41 @@
 <label for='address'>Address: </label>
 <input type='text' name='client_companies[][address]' id='address' placeholder='enter the address'><br><br>
 
-<p>industry: </p>
-<%Industry.new.industries_list.each do |industry|%>
+<label for='industry_list'>Choose an industry:</label>
 
-<label for='industry_list'><%=industry%></label>
-<input type='checkbox' name='client_companies[][industry]' id='industry_list' value="<%=industry%>"><br><br>
+<select name="user_companies[industry]" id="industry_list">
+  <%Industry.new.industries_list.each do |industry|%>
+    <option value="<%=industry%>"><%=industry%></option>
+  <%end%>
+</select><br><br>
 
-<%end%>
 <%end%>
 <%end%><br>
-
-<h3>Select existing companies for association if applicable:</h3>
 
 <% @user.client_companies.each do |company| %>
 
 <% if @client.client_companies.include?(company)%>
 <h3>Current Companies: </h3>
 <%=company.name%><br><br>
-<%else%>
+<%end%>
+<%end%>
+
+<h3>Select existing companies for association if applicable:</h3>
+
+<%counter=0%>
+<% @user.client_companies.each do |company| %>
+
+<% if !@client.client_companies.include?(company)%>
 
 <label for='<%=company.name%>'><%=company.name%></label>
-<input type='checkbox' name='current_companies[][company_name]' id='<%=company.name%>' value='<%=company.name%>'><br>
+<input type='checkbox' name='current_companies[<%=counter%>][company_name]' id='<%=company.name%>' value='<%=company.name%>'><br>
 
 <label for='<%=company%>'>Title: </label>
-<input type='text' name='current_companies[][titles]' id='<%=company%>' placeholder='Enter <%=@client.first_name + " " + @client.last_name%> title'><br><br>
-
+<input type='text' name='current_companies[<%=counter%>][titles]' id='<%=company%>' placeholder='Enter <%=@client.first_name + " " + @client.last_name%> title'><br><br>
+<%counter+=1%>
 <%end%>
 <%end%><br><br>
+
+<input type='submit' value='Submit'>
 
 </form>
