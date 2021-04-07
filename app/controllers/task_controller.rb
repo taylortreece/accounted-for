@@ -91,7 +91,6 @@ class TaskController < ApplicationController
           flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
           redirect '/'
         else
-          Task.find_by(title: params[:title]).destroy
 
           if Task.find_by(title: params[:title]).destroy
             flash[:message]='Successfully deleted!'

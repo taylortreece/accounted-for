@@ -4,12 +4,12 @@
 <%else%>
 <%@user.tasks.each do |task|%>
 <div class='content'>
-<h3><a href='/tasks/<%=task.title%>'><%=task.title%></a></h3>
+<h3><a href="/tasks/<%=task.title%>"><%=task.title%></a></h3>
 <p><%=task.user_company.name%></p>
 <p><%=task.description%></p>
 <p><%=task.deadline%></p><br>
-<a href='/tasks/<%=task.title%>/edit'>edit</a>
-<a href='/tasks/<%=task.title%>/delete'>delete</a>
+<a href="/tasks/<%=task.title%>">edit</a>
+<a href="/tasks/<%=task.title%>/delete">delete</a>
 </div>
 <%end%>
 <%end%>

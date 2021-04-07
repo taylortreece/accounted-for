@@ -45,7 +45,7 @@ class UserController < ApplicationController
           user.save
           flash[:messge]='Successfully updated your profile.'
 
-          redirect "/user/#{user.slugged_username}/profile"
+          redirect "/users/#{user.slugged_username}/profile"
         else
           flash[:warning]='Could not update. Try again.'
 
