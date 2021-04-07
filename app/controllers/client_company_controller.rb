@@ -103,8 +103,47 @@ class ClientCompanyController < ApplicationController
   get '/client-companies/:name/add-clients' do
     @client_company=ClientCompany.find_by(name: params[:name])
     @user=current_user
-    
+    @user_clients=user_clients
+
     erb :'/client_companies/add_clients'
+  end
+
+  patch '/client-companies/:company_name/add-clients' do
+    if !logged_in?
+      flash[:warning]='You must be logged in to view this page. Please log in, or sign up.'
+      redirect '/'
+    else
+      client_company=ClientCompany.find_by(name: params[:company_name])
+      counter=0
+      titles=[]
+
+      if params[:clients]!=nil
+        params[:clients].length.times do
+        if params[:clients]["#{counter}".to_s][:id]!=nil
+          info=params[:clients]["#{counter}".to_s]
+
+          client=Client.find(info[:id])
+          client_company.client=client
+          client.client_companies<<client_company
+
+          company_title=ClientJobTitle.find_or_create_by(name: info[:titles])
+          company_title.client=client
+          company_title.client_company=client_company
+
+          if client.save
+            client_company.save
+            company_title.save
+
+            flash[:message]='Company and clients updated!'
+          else
+            flash[:fatal]='Could not update company or client.'
+            end
+          end
+          counter+=1
+        end
+      end
+    end
+    redirect "/client-companies/#{client_company.name}"
   end
 
 end

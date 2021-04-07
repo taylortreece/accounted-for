@@ -3,15 +3,19 @@
 <p>Industry: <%=@client_company.industry%></p>
 <p>User Company Association: <%=@client_company.user_company.name%></p>
 <p>Discount: <%=@client_company.discount.to_s + '%'%><br><br>
+<a href='/client-companies/<%=@client_company.name%>/add-clients'>add clients to company</a><br><br>
+
 
 <%if !@client_company.clients.empty?%>
 <h3>Clients: </h3>
 <%@client_company.clients.each do |c|%>
 <div class='content'>
 <p>Client: <a href='/clients/<%=c.slugged_name%>/edit'><%=c.first_name + " " + c.last_name%></a></p>
+<p>Job Title: <%=@client_company.client_job_titles.find_by(client_id: c.id).name%>
 <p>Email: <%=c.email%></p><br>
-<%end%>
+
 </div>
+<%end%>
 <%else%>
 <p><a href='/clients/new'>Add clients</a></p>
 <%end%>

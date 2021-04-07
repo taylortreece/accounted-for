@@ -1,1 +1,30 @@
-<h1>add-clients</h1>
+<h1>Add clients to <%=@client_company.name%></h1>
+
+    <form action='/client-companies/<%=@client_company.name%>/add-clients' method='post'>
+    <input type='hidden' name='_method' value='patch'>
+
+    <%counter=0%>
+
+    <%user_clients.each do |client|%>
+
+        <%if !@client_company.clients.include?(client)%>
+    <label for='<%=client.first_name + " " + client.last_name%>'><%=client.first_name + " " + client.last_name%></label>
+    <input type='checkbox' name='clients[<%=counter%>][id]' value="<%=client.id%>"><br><br>
+
+    <label for='job_title'>Job title</label>
+    <input type='text' name='clients[<%=counter%>][titles]' placeholder='Enter job title'><br><br>
+
+      <%counter+=1%>
+      <%end%>
+    <%end%>
+    
+    <%if counter==0%>
+        <h3><a href='/clients/new'>Create new clients</a></h3>
+    <%else%>
+
+    <input type='submit' value='Submit'>
+
+    </form>
+
+<h3>or <a href='/clients/new'>Create new clients</a></h3>
+<%end%>
