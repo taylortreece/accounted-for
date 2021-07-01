@@ -1,5 +1,7 @@
 # Sinatra Portfolio Project- Accounted For
 
+TUTORIAL VIDEO: https://youtu.be/3RaasMAWrmI
+
 ## Overview
 
 This program is a quick way to take notes, set tasks, and catalog relevant information for multiple businesses.
